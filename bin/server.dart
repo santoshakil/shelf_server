@@ -11,15 +11,10 @@ Map<String, WebSocketChannel> _channels = {};
 
 final _router = Router()
   ..get('/', _rootHandler)
-  ..get('/echo/<message>', _echoHandler)
   ..get('/send/<token>', _webSocketHandler);
 
 Response _rootHandler(Request _) {
   return Response.ok('Hello');
-}
-
-Response _echoHandler(Request request) {
-  return Response.ok('${request.params}\n');
 }
 
 FutureOr<Response> _webSocketHandler(Request request) async {
@@ -28,7 +23,7 @@ FutureOr<Response> _webSocketHandler(Request request) async {
 
   void _onConnection(WebSocketChannel webSocket) {
     _channels.addAll({_token: webSocket});
-    print('Client($_token) connected!');
+    // print('Client($_token) connected!');
     webSocket.stream.listen(
       (m) => print('Received message: $m'),
       onError: (e) {
@@ -39,6 +34,7 @@ FutureOr<Response> _webSocketHandler(Request request) async {
       cancelOnError: false,
     );
     if (_token == '10001') {
+      print('Client($_token) connected!');
       for (var _channel in _channels.entries) {
         _channel.value.sink.add('Hello, Client($_token)');
       }
