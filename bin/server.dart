@@ -36,7 +36,7 @@ FutureOr<Response> _webSocketHandler(Request request) async {
     if (_token == '1001') {
       for (var _channel in _channels.entries) {
         _channel.value.sink.add(
-            '${DateTime.now().millisecondsSinceEpoch} Hello, Client(${_channel.key})!');
+            '${DateTime.now().microsecondsSinceEpoch} Hello, Client(${_channel.key})!');
       }
     }
   }
