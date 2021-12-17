@@ -31,7 +31,10 @@ FutureOr<Response> _webSocketHandler(Request request) async {
     print('Client($_token) connected!');
     webSocket.stream.listen(
       (message) => print('Received message: $message'),
-      onError: (error) => webSocket.sink.add(error),
+      onError: (error) {
+        print('Error: $error');
+        webSocket.sink.add(error);
+      },
       onDone: () => _channels.remove(_token),
       cancelOnError: false,
     );
