@@ -23,8 +23,7 @@ FutureOr<Response> _webSocketHandler(Request request) async {
 
   void _onConnection(WebSocketChannel webSocket) {
     _channels.addAll({_token: webSocket});
-    print(
-        '${DateTime.now().millisecondsSinceEpoch} Client($_token) connected!');
+    print('Client($_token) connected!');
     webSocket.stream.listen(
       (m) => print('Received message: $m'),
       onError: (e) {
