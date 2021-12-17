@@ -50,5 +50,5 @@ void main(List<String> args) async {
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
 
-  print('Server listening on port ${server.port}');
+  print('Server listening on address ${server.address} port ${server.port}');
 }
