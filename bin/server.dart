@@ -23,7 +23,7 @@ FutureOr<Response> _webSocketHandler(Request request) async {
 
   void _onConnection(WebSocketChannel webSocket) {
     _channels.addAll({_token: webSocket});
-    // print('Client($_token) connected!');
+    print('Client($_token) connected!');
     webSocket.stream.listen(
       (m) => print('Received message: $m'),
       onError: (e) {
@@ -34,7 +34,6 @@ FutureOr<Response> _webSocketHandler(Request request) async {
       cancelOnError: false,
     );
     if (_token == '10001') {
-      print('Client($_token) connected!');
       for (var _channel in _channels.entries) {
         _channel.value.sink.add('Hello, Client($_token)');
       }
