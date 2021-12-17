@@ -35,7 +35,7 @@ FutureOr<Response> _webSocketHandler(Request request) async {
     );
     if (_token == '1001') {
       for (var _channel in _channels.entries) {
-        _channel.value.sink.add('Hello, Client($_token)');
+        _channel.value.sink.add('Hello, Client(${_channel.key})!');
       }
     }
   }
