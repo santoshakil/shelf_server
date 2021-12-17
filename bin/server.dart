@@ -14,7 +14,7 @@ final _router = Router()
   ..get('/echo/<message>', _echoHandler)
   ..get('/send/<token>', _webSocketHandler);
 
-Response _rootHandler(Request req) {
+Response _rootHandler(Request _) {
   return Response.ok('Hello');
 }
 
@@ -30,10 +30,10 @@ FutureOr<Response> _webSocketHandler(Request request) async {
     _channels.addAll({_token: webSocket});
     print('Client($_token) connected!');
     webSocket.stream.listen(
-      (message) => print('Received message: $message'),
-      onError: (error) {
-        print('Error: $error');
-        webSocket.sink.add(error);
+      (m) => print('Received message: $m'),
+      onError: (e) {
+        print('Error: $e');
+        webSocket.sink.add(e);
       },
       onDone: () => _channels.remove(_token),
       cancelOnError: false,
@@ -50,6 +50,7 @@ FutureOr<Response> _webSocketHandler(Request request) async {
 
 void main(List<String> args) async {
   final ip = InternetAddress.anyIPv4;
+  // final _handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
   final _handler = Pipeline().addHandler(_router);
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
