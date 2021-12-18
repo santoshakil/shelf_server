@@ -11,14 +11,14 @@ Map<String, WebSocketChannel> _channels = {};
 
 final _router = Router()
   ..get('/', _rootHandler)
-  ..get('/getNotificaion', _webSocketHandler)
+  ..get('/getNotificaion', _getNotificationHandler)
   ..post('/sendNotificaion', _sendNotificationHandler);
 
 Response _rootHandler(Request _) {
   return Response.ok('Hello');
 }
 
-FutureOr<Response> _webSocketHandler(Request request) async {
+FutureOr<Response> _getNotificationHandler(Request request) async {
   String? _token = request.headers['Authorization'];
   if (_token == null) return Response.forbidden('Invalid token');
 
