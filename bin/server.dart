@@ -44,7 +44,7 @@ FutureOr<Response> _sendNotificationHandler(Request request) async {
   final String? _auth = request.headers['Authorization'];
   if (_auth == null) return Response.forbidden('Invalid Authorization');
 
-  final String? _token = request.headers['token'];
+  final String? _token = request.headers['to'];
   if (_token == null) return Response.forbidden('Invalid token');
 
   final _channel = _channels[_token];
