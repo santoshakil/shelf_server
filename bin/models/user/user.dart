@@ -1,5 +1,6 @@
 import 'dart:convert' show json;
 
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart' show JWT, SecretKey;
 import 'package:hive/hive.dart'
     show
         BinaryReader,
@@ -17,6 +18,7 @@ part 'user.g.dart';
 @HiveType(typeId: hiveTypeUser)
 class User extends HiveObject {
   static const String boxName = 'userBox';
+  static final users = Hive.box<User>(boxName);
 
   Future<void> put() async => await Hive.box<User>(boxName).put(email, this);
 
@@ -66,12 +68,14 @@ class User extends HiveObject {
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
+    int _id = DateTime.now().millisecondsSinceEpoch;
     return User(
-      id: map['id']?.toInt() ?? 0,
-      name: map['name'] ?? '',
-      email: map['email'] ?? '',
-      password: map['password'] ?? '',
-      token: map['token'] ?? '',
+      id: map['id'] ?? _id,
+      name: map['name'],
+      email: map['email'],
+      password: map['password'],
+      token: map['token'] ??
+          JWT({'id': _id, 'email': map['email']}).sign(SecretKey('clerk')),
     );
   }
 
