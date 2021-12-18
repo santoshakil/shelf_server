@@ -18,8 +18,7 @@ part 'user.g.dart';
 class User extends HiveObject {
   static const String boxName = 'userBox';
 
-  Future<void> put() async =>
-      await Hive.box<User>(boxName).put(id.toString(), this);
+  Future<void> put() async => await Hive.box<User>(boxName).put(email, this);
 
   @HiveField(0)
   int id;
