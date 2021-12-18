@@ -11,43 +11,53 @@ Map<String, WebSocketChannel> _channels = {};
 
 final _router = Router()
   ..get('/', _rootHandler)
-  ..get('/send/<token>', _webSocketHandler);
+  ..get('/getNotificaion', _webSocketHandler)
+  ..post('/sendNotificaion', _sendNotificationHandler);
 
 Response _rootHandler(Request _) {
   return Response.ok('Hello');
 }
 
 FutureOr<Response> _webSocketHandler(Request request) async {
-  String? _token = request.params['token'];
+  String? _token = request.headers['Authorization'];
   if (_token == null) return Response.forbidden('Invalid token');
 
   void _onConnection(WebSocketChannel webSocket) {
     _channels.addAll({_token: webSocket});
     print('Client($_token) connected!');
+    webSocket.sink.add('You are connected!');
     webSocket.stream.listen(
       (m) => print('Received message: $m'),
       onError: (e) {
-        print('Error: $e');
         webSocket.sink.add(e);
+        print('Error: $e');
       },
       onDone: () => _channels.remove(_token),
       cancelOnError: false,
     );
-    if (_token == '1001') {
-      for (var _channel in _channels.entries) {
-        _channel.value.sink.add(
-            '${DateTime.now().microsecondsSinceEpoch} Hello, Client(${_channel.key})!');
-      }
-    }
   }
 
   return await webSocketHandler(_onConnection)(request);
 }
 
+FutureOr<Response> _sendNotificationHandler(Request request) async {
+  final String? _auth = request.headers['Authorization'];
+  if (_auth == null) return Response.forbidden('Invalid Authorization');
+
+  final String? _token = request.headers['token'];
+  if (_token == null) return Response.forbidden('Invalid token');
+
+  final _channel = _channels[_token];
+  if (_channel == null) return Response.forbidden('User not found');
+  _channel.sink.add(await request.readAsString());
+
+  return Response.ok('Message sent!');
+}
+
 void main(List<String> args) async {
   final ip = InternetAddress.anyIPv4;
-  // final _handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
-  final _handler = Pipeline().addHandler(_router);
+  final _handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
+  // final _handler = Pipeline().addHandler(_router);
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
 
