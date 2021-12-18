@@ -1,5 +1,4 @@
 import 'dart:async' show FutureOr;
-import 'dart:convert' show jsonDecode;
 
 import 'package:shelf/shelf.dart' show Request, Response;
 import 'package:shelf_web_socket/shelf_web_socket.dart' show webSocketHandler;
@@ -7,7 +6,7 @@ import 'package:web_socket_channel/web_socket_channel.dart'
     show WebSocketChannel;
 
 import '../../database/channels.dart' show channels;
-import '../../models/user/user.dart';
+import '../../models/user/user.dart' show User;
 
 FutureOr<Response> getNotificationHandler(Request request) async {
   final String? _token = request.headers['Authorization'];
