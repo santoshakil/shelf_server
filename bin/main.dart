@@ -9,7 +9,7 @@ void main(List<String> args) async {
   await initHive();
 
   final _handler = Pipeline().addMiddleware(logRequests()).addHandler(handlers);
-  final server = await serve(_handler, serverIP, serverPort);
+  final server = await serve(_handler, serverIP, serverPort, shared: true);
 
   print('Server listening on address ${server.address} port ${server.port}');
 }
