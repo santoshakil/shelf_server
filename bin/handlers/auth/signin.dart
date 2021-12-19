@@ -22,5 +22,5 @@ FutureOr<Response> signInHandler(Request request) async {
     return Response.forbidden('password is incorrect');
   }
 
-  return Response.ok({'token': _user.token}.toString());
+  return Response.ok('{"token": "${_user.token}"}');
 }

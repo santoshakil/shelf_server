@@ -27,7 +27,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
 
   final _channel = channels[_to];
   if (_channel == null) return Response.forbidden('To User is not connected');
-  _channel.sink.add(_message);
+  _channel.sink.add('{"message": "$_message", "email": "$_email"}');
 
   return Response.ok('Message sent!');
 }
