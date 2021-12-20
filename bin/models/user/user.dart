@@ -62,8 +62,6 @@ class User extends HiveObject {
       'id': id,
       'name': name,
       'email': email,
-      'password': password,
-      'token': token,
     };
   }
 
