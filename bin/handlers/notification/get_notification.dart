@@ -21,15 +21,6 @@ FutureOr<Response> getNotificationHandler(Request request) async {
     channels.addAll({_email: webSocket});
     print('${_user.name} is connected!');
     webSocket.sink.add('You are connected!');
-    // webSocket.stream.listen(
-    //   (m) => print('message: $m'),
-    //   onError: (e) {
-    //     webSocket.sink.add(e);
-    //     print('Error: $e');
-    //   },
-    //   onDone: () => channels.remove(_token),
-    //   cancelOnError: false,
-    // );
   }
 
   return await webSocketHandler(_onConnection)(request);
