@@ -22,5 +22,11 @@ FutureOr<Response> signInHandler(Request request) async {
     return Response.forbidden('password is incorrect');
   }
 
-  return Response.ok('{"token": "${_user.token}"}');
+  return Response.ok('''
+  {
+    "message": "user created",
+    "id": "${_user.id}",
+    "token": "${_user.token}"
+  }
+  ''');
 }

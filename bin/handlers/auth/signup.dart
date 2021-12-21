@@ -23,5 +23,11 @@ FutureOr<Response> signUpHandler(Request request) async {
   print(_user.token);
   await _user.put();
 
-  return Response.ok('{"message": "user created", "token": "${_user.token}"}');
+  return Response.ok('''
+  {
+    "message": "user created",
+    "id": "${_user.id}",
+    "token": "${_user.token}"
+  }
+  ''');
 }
