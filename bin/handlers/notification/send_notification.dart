@@ -15,6 +15,11 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
   final String? _message = _map['message'];
   final String? _email = _map['email'];
   final String? _to = _map['to'];
+  final bool _isSeen = _map['isSeen'] ?? false;
+  final bool _isDelete = _map['isDelete'] ?? false;
+  final String? _reacts = _map['reacts'];
+  final String _type = _map['type'] ?? 'text';
+
   if (_message == null || _email == null || _to == null) {
     return Response.forbidden('message, email and to are required');
   }
@@ -32,7 +37,11 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     "message": "$_message",
     "email": "$_email",
     "sender": "${_user.name}",
-    "time": "${DateTime.now()}"
+    "time": "${DateTime.now()}",
+    "isSeen": $_isSeen,
+    "isDelete": $_isDelete,
+    "reacts": $_reacts,
+    "type": "$_type"
   }
   ''');
 
