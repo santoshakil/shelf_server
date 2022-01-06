@@ -18,6 +18,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
   final bool _isSeen = _map['isSeen'] ?? false;
   final bool _isDelete = _map['isDelete'] ?? false;
   final String? _reacts = _map['reacts'];
+  final String? _task = _map['task'];
+  final String? _time = _map['time'];
   final String _type = _map['type'] ?? 'text';
 
   if (_message == null || _email == null || _to == null) {
@@ -37,10 +39,11 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     "message": "$_message",
     "email": "$_email",
     "sender": "${_user.name}",
-    "time": "${DateTime.now()}",
+    "time": "$_time",
     "isSeen": $_isSeen,
     "isDelete": $_isDelete,
     "reacts": $_reacts,
+    "task": "$_task",
     "type": "$_type"
   }
   ''');
