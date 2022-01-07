@@ -21,6 +21,7 @@ FutureOr<Response> signInHandler(Request request) async {
   if (_user.password != _password) {
     return Response.forbidden('password is incorrect');
   }
+  print('user: ${_user.toJson()} logged in');
 
   return Response.ok('''
   {

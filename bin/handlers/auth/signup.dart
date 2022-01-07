@@ -20,8 +20,8 @@ FutureOr<Response> signUpHandler(Request request) async {
   }
 
   var _user = User.fromMap(_map);
-  print(_user.token);
   await _user.put();
+  print('user created: ${_user.name.toString()}');
 
   return Response.ok('''
   {
