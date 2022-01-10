@@ -32,6 +32,14 @@ class User extends HiveObject {
   String password;
   @HiveField(4)
   String token;
+  @HiveField(5)
+  String phone;
+  @HiveField(6)
+  String address;
+  @HiveField(7)
+  String designation;
+  @HiveField(8)
+  String depertment;
 
   User({
     required this.id,
@@ -39,6 +47,10 @@ class User extends HiveObject {
     required this.email,
     required this.password,
     required this.token,
+    required this.phone,
+    required this.address,
+    required this.designation,
+    required this.depertment,
   });
 
   User copyWith({
@@ -47,6 +59,10 @@ class User extends HiveObject {
     String? email,
     String? password,
     String? token,
+    String? phone,
+    String? address,
+    String? designation,
+    String? depertment,
   }) {
     return User(
       id: id ?? this.id,
@@ -54,6 +70,10 @@ class User extends HiveObject {
       email: email ?? this.email,
       password: password ?? this.password,
       token: token ?? this.token,
+      phone: phone ?? this.phone,
+      address: address ?? this.address,
+      designation: designation ?? this.designation,
+      depertment: depertment ?? this.depertment,
     );
   }
 
@@ -62,6 +82,10 @@ class User extends HiveObject {
       'id': id,
       'name': name,
       'email': email,
+      'phone': phone,
+      'address': address,
+      'designation': designation,
+      'depertment': depertment,
     };
   }
 
@@ -78,6 +102,10 @@ class User extends HiveObject {
             'email': map['email'],
             'expiry': DateTime.now().add(Duration(days: 30)).toString(),
           }).sign(SecretKey('clerk')),
+      phone: map['phone'],
+      address: map['address'],
+      designation: map['designation'],
+      depertment: map['depertment'],
     );
   }
 
@@ -86,17 +114,15 @@ class User extends HiveObject {
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'User(id: $id, name: $name, email: $email, password: $password, token: $token)';
-
-  @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
     return other is User && other.id == id;
   }
 
   @override
-  int get hashCode =>
-      id.hashCode ^ name.hashCode ^ email.hashCode ^ password.hashCode;
+  int get hashCode => id.hashCode;
+
+  @override
+  String toString() =>
+      'User(id: $id, name: $name, email: $email, phone: $phone, address: $address, designation: $designation, depertment: $depertment)';
 }
