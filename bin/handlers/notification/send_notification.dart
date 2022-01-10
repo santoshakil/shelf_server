@@ -12,16 +12,17 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
 
   final String? _auth = request.headers['Authorization'];
   if (_auth == null) return Response.forbidden('Invalid Authorization');
-  final String? _message = _map['message'];
-  final String? _email = _map['email'];
+
   final String? _to = _map['to'];
-  final bool _isSeen = _map['isSeen'] ?? false;
-  final bool _isDelete = _map['isDelete'] ?? false;
-  final String? _reacts = _map['reacts'];
   final String? _task = _map['task'];
   final String? _time = _map['time'];
-  final String? _image = _map['image'];
+  final String? _email = _map['email'];
+  final String? _reacts = _map['reacts'];
+  final String? _message = _map['message'];
   final String _type = _map['type'] ?? 'text';
+  final bool _isSeen = _map['isSeen'] ?? false;
+  final bool _isDelete = _map['isDelete'] ?? false;
+  final String? _image = _map['image'];
 
   if (_message == null || _email == null || _to == null) {
     return Response.forbidden('message, email and to are required');
@@ -30,11 +31,13 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
   final User? _user = User.users.get(_email);
   if (_user == null) return Response.forbidden('User not found');
   if (_user.token != _auth) return Response.forbidden('Invalid Authorization');
+
   final User? _toUser = User.users.get(_to);
   if (_toUser == null) return Response.forbidden('To user not found');
 
   final _channel = channels[_to];
   if (_channel == null) return Response.forbidden('To User is not connected');
+
   _channel.sink.add('''
   {
     "message": "$_message",
@@ -49,6 +52,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     "image": "$_image"
   }
   ''');
+  print('Message sent to $_to from $_email');
 
   return Response.ok('Message sent!');
 }
