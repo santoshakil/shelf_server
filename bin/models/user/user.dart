@@ -73,7 +73,11 @@ class User extends HiveObject {
       email: map['email'],
       password: map['password'],
       token: map['token'] ??
-          JWT({'id': _id, 'email': map['email']}).sign(SecretKey('clerk')),
+          JWT({
+            'id': _id,
+            'email': map['email'],
+            'expiry': DateTime.now().add(Duration(days: 30)).toString(),
+          }).sign(SecretKey('clerk')),
     );
   }
 
