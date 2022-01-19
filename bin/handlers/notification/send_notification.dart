@@ -24,6 +24,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
   final bool _isDelete = _map['isDelete'] ?? false;
   final String? _image = _map['image'];
   final String? _groupId = _map['groupId'];
+  final String? _replyId = _map['replyId'];
 
   if (_message == null || _email == null || _to == null) {
     return Response.forbidden('message, email and to are required');
@@ -51,7 +52,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     "task": "$_task",
     "type": "$_type",
     "image": "$_image",
-    "groupId": "$_groupId"
+    "groupId": "$_groupId",
+    "replyId": "$_replyId"
   }
   ''');
   print('Message sent to $_to from $_email');
