@@ -30,6 +30,8 @@ FutureOr<Response> signUpHandler(Request request) async {
 
   var _user = User.fromMap(_map);
   // await _user.put();
+  final _exist = await getUserByEmail(_user.email);
+  if (_exist != null) return Response.forbidden('email already exists');
   await createUser(_user);
   print('user created: ${_user.name.toString()}');
 
