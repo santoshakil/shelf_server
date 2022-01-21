@@ -1,1 +1,1 @@
-## A server app built using [Shelf](https://pub.dev/packages/shelf),
+## A server app built using [Shelf](https://pub.dev/packages/shelf)
