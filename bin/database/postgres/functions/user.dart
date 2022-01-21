@@ -1,6 +1,5 @@
 import '../../../models/user/user.dart';
 import '../postgres.dart';
-import 'chat.dart';
 
 Future<void> createUserTable() async => await pg.execute('''
       CREATE TABLE IF NOT EXISTS users (
@@ -19,28 +18,24 @@ Future<void> createUserTable() async => await pg.execute('''
       )
     ''');
 
-Future<void> createUser(User user) async {
-  await pg.execute(
-    '''
+Future<void> createUser(User user) async => await pg.execute(
+      '''
       INSERT INTO users (name, email, password, token, phone, address, designation, department, profile_picture, chat_rooms)
       VALUES (@name, @email, @password, @token, @phone, @address, @designation, @department, @profile_picture, @chat_rooms)
       ''',
-    substitutionValues: {
-      'name': user.name,
-      'email': user.email,
-      'password': user.password,
-      'token': user.token,
-      'phone': user.phone,
-      'address': user.address,
-      'designation': user.designation,
-      'department': user.depertment,
-      'profile_picture': user.profilePicture,
-      'chat_rooms': user.chatRooms,
-    },
-  );
-  final _user = await getUserByEmail(user.email);
-  await createChatTable(_user!.id);
-}
+      substitutionValues: {
+        'name': user.name,
+        'email': user.email,
+        'password': user.password,
+        'token': user.token,
+        'phone': user.phone,
+        'address': user.address,
+        'designation': user.designation,
+        'department': user.depertment,
+        'profile_picture': user.profilePicture,
+        'chat_rooms': user.chatRooms,
+      },
+    );
 
 Future<User?> getUserByEmail(String email) async {
   final results = await pg.query(

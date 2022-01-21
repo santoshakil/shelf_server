@@ -25,7 +25,7 @@ FutureOr<Response> signInHandler(Request request) async {
 
   return Response.ok('''
   {
-    "message": "user created",
+    "message": "user logged in!",
     "token": "${_user.token}",
     "id": "${_user.id}",
     "name": "${_user.name}",

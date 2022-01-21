@@ -1,7 +1,7 @@
 import '../postgres.dart';
 
-Future<void> createChatTable(int uid) async {
-  final _tableName = 'chat_$uid';
+Future<void> createChatTable({required int sid, required int rid}) async {
+  final _tableName = 'chat_${sid > rid ? sid : rid}_${sid > rid ? rid : sid}';
 
   await pg.execute('''
       CREATE TABLE IF NOT EXISTS $_tableName (
@@ -135,3 +135,59 @@ Future<void> deleteMessage({
     ''',
       substitutionValues: {'message_id': messageID},
     );
+
+Future<List<String>> _getAllGroupChats(int uid) async {
+  final results = await pg.query(
+    '''
+    SELECT group_id FROM group_chat_info
+    WHERE members @> ARRAY[@uid]
+    ''',
+    substitutionValues: {'uid': uid},
+  );
+
+  return results.map((e) => e.toColumnMap()['group_id'] as String).toList();
+}
+
+Future<List<String>> _getAllSingleChats(int uid) async {
+  final results = await pg.query(
+    '''
+    SELECT table_name FROM information_schema.tables
+    WHERE table_name LIKE @str
+    ''',
+    substitutionValues: {'str': '%$uid%'},
+  );
+
+  return results.map((e) => e.toColumnMap()['table_name'] as String).toList();
+}
+
+Future<List<String>> getAllChats(int uid) async {
+  final _single = await _getAllSingleChats(uid);
+  final _group = await _getAllGroupChats(uid);
+  return [..._single, ..._group];
+}
+
+Future<Map<String, dynamic>?> _getRecentMessage(String chatID,
+    [int limit = 1]) async {
+  final _results = await pg.query(
+    '''
+    SELECT * FROM $chatID
+    ORDER BY sent_at DESC
+    LIMIT $limit
+    ''',
+  );
+
+  if (_results.isEmpty) return null;
+
+  return _results.first.toColumnMap();
+}
+
+Future<List<Map<String, dynamic>?>> getAllChatsWithLastMessages(int uid,
+    [int limit = 1]) async {
+  final _allChats = await getAllChats(uid);
+
+  final _results = await Future.wait(
+    _allChats.map((e) async => await _getRecentMessage(e, limit)),
+  );
+
+  return _results.where((e) => e != null).toList();
+}
