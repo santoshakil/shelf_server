@@ -40,6 +40,10 @@ class User extends HiveObject {
   String designation;
   @HiveField(8)
   String depertment;
+  @HiveField(9)
+  int? profilePicture;
+  @HiveField(10)
+  List<String>? chatRooms;
 
   User({
     required this.id,
@@ -51,6 +55,8 @@ class User extends HiveObject {
     required this.address,
     required this.designation,
     required this.depertment,
+    this.profilePicture,
+    this.chatRooms,
   });
 
   User copyWith({
@@ -89,6 +95,24 @@ class User extends HiveObject {
     };
   }
 
+  Map<String, dynamic> toMapWithAllInfo() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'password': password,
+      'token': token,
+      'phone': phone,
+      'address': address,
+      'designation': designation,
+      'depertment': depertment,
+      'profile_picture': profilePicture,
+      'chat_rooms': chatRooms == null
+          ? null
+          : List<String>.from(chatRooms!.map((x) => x)),
+    };
+  }
+
   factory User.fromMap(Map<String, dynamic> map) {
     int _id = DateTime.now().millisecondsSinceEpoch;
     return User(
@@ -106,6 +130,10 @@ class User extends HiveObject {
       address: map['address'],
       designation: map['designation'],
       depertment: map['depertment'],
+      profilePicture: map['profile_picture'],
+      chatRooms: map['chat_rooms'] == null
+          ? null
+          : List<String>.from(map['chat_rooms']),
     );
   }
 
