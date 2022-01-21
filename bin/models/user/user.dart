@@ -117,19 +117,19 @@ class User extends HiveObject {
     int _id = DateTime.now().millisecondsSinceEpoch;
     return User(
       id: map['id'] ?? _id,
-      name: map['name'],
-      email: map['email'],
-      password: map['password'],
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      password: map['password'] ?? '',
       token: map['token'] ??
           JWT({
             'id': _id,
             'email': map['email'],
             'expiry': DateTime.now().add(Duration(days: 30)).toString(),
           }).sign(SecretKey('clerk')),
-      phone: map['phone'],
-      address: map['address'],
-      designation: map['designation'],
-      depertment: map['depertment'],
+      phone: map['phone'] ?? '',
+      address: map['address'] ?? '',
+      designation: map['designation'] ?? '',
+      depertment: map['depertment'] ?? '',
       profilePicture: map['profile_picture'],
       chatRooms: map['chat_rooms'] == null
           ? null

@@ -14,7 +14,7 @@ Future<void> createUserTable() async => await pg.execute('''
         designation VARCHAR(255) NOT NULL,
         department VARCHAR(255) NOT NULL,
         profile_picture bytea,
-        chat_rooms VARCHAR[] NOT NULL,
+        chat_rooms VARCHAR[],
         created_at TIMESTAMP NOT NULL DEFAULT NOW()
       )
     ''');

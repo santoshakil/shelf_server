@@ -3,6 +3,7 @@ import 'dart:convert' show jsonDecode;
 
 import 'package:shelf/shelf.dart' show Request, Response;
 
+import '../../database/postgres/functions/user.dart';
 import '../../models/user/user.dart' show User;
 
 FutureOr<Response> signUpHandler(Request request) async {
@@ -29,6 +30,7 @@ FutureOr<Response> signUpHandler(Request request) async {
 
   var _user = User.fromMap(_map);
   await _user.put();
+  await createUser(_user);
   print('user created: ${_user.name.toString()}');
 
   return Response.ok('''
@@ -45,4 +47,3 @@ FutureOr<Response> signUpHandler(Request request) async {
   }
   ''');
 }
-//phone, address, designation, departmentName
