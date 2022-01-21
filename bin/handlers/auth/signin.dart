@@ -3,6 +3,7 @@ import 'dart:convert' show jsonDecode;
 
 import 'package:shelf/shelf.dart' show Request, Response;
 
+import '../../database/postgres/functions/user.dart';
 import '../../models/user/user.dart' show User;
 
 FutureOr<Response> signInHandler(Request request) async {
@@ -16,7 +17,8 @@ FutureOr<Response> signInHandler(Request request) async {
   if (_password == null) _e.addAll({'password': 'password is required'});
   if (_e.isNotEmpty) return Response.forbidden(_e.toString());
 
-  User? _user = User.users.get(_email);
+  // User? _user = User.users.get(_email);
+  User? _user = await getUserByEmail(_email!);
   if (_user == null) return Response.forbidden('user not found');
   if (_user.password != _password) {
     return Response.forbidden('password is incorrect');

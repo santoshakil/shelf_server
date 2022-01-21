@@ -29,7 +29,7 @@ FutureOr<Response> signUpHandler(Request request) async {
   if (_e.isNotEmpty) return Response.forbidden(_e.toString());
 
   var _user = User.fromMap(_map);
-  await _user.put();
+  // await _user.put();
   await createUser(_user);
   print('user created: ${_user.name.toString()}');
 

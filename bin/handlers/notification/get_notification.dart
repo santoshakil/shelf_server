@@ -6,6 +6,7 @@ import 'package:web_socket_channel/web_socket_channel.dart'
     show WebSocketChannel;
 
 import '../../database/channels.dart' show channels;
+import '../../database/postgres/functions/user.dart';
 import '../../models/user/user.dart' show User;
 
 FutureOr<Response> getNotificationHandler(Request request) async {
@@ -15,7 +16,8 @@ FutureOr<Response> getNotificationHandler(Request request) async {
   final String? _email = request.headers['email'];
   if (_email == null) return Response.forbidden('email is required');
 
-  final User? _user = User.users.get(_email);
+  // final User? _user = User.users.get(_email);
+  final User? _user = await getUserByEmail(_email);
   if (_user == null) return Response.forbidden('Invalid email');
   if (_user.token != _token) return Response.forbidden('Invalid token');
 

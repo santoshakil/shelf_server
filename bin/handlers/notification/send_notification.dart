@@ -4,6 +4,7 @@ import 'dart:convert' show jsonDecode;
 import 'package:shelf/shelf.dart' show Request, Response;
 
 import '../../database/channels.dart' show channels;
+import '../../database/postgres/functions/user.dart';
 import '../../models/user/user.dart' show User;
 
 FutureOr<Response> sendNotificationHandler(Request request) async {
@@ -30,11 +31,13 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     return Response.forbidden('message, email and to are required');
   }
 
-  final User? _user = User.users.get(_email);
+  // final User? _user = User.users.get(_email);
+  final User? _user = await getUserByEmail(_email);
   if (_user == null) return Response.forbidden('User not found');
   if (_user.token != _auth) return Response.forbidden('Invalid Authorization');
 
-  final User? _toUser = User.users.get(_to);
+  // final User? _toUser = User.users.get(_to);
+  final User? _toUser = await getUserByEmail(_to);
   if (_toUser == null) return Response.forbidden('To user not found');
 
   final _channel = channels[_to];
