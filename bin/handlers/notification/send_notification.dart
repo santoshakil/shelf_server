@@ -22,7 +22,12 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
   final String _type = _map['type'] ?? 'text';
   final bool _isSeen = _map['isSeen'] ?? false;
   final bool _isDelete = _map['isDelete'] ?? false;
+  final bool _delayed = _map['delayed'] ?? false;
   final String? _image = _map['image'];
+  final String? _groupId = _map['groupId'];
+  final String? _replyId = _map['replyId'];
+  final String? _disappear = _map['disappear'];
+  final String? _reminder = _map['reminder'];
 
   if (_message == null || _email == null || _to == null) {
     return Response.forbidden('message, email and to are required');
@@ -49,7 +54,12 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     "reacts": $_reacts,
     "task": "$_task",
     "type": "$_type",
-    "image": "$_image"
+    "image": "$_image",
+    "groupId": "$_groupId",
+    "replyId": "$_replyId",
+    "disappear": "$_disappear",
+    "reminder": "$_reminder",
+    "delayed": $_delayed
   }
   ''');
   print('Message sent to $_to from $_email');
