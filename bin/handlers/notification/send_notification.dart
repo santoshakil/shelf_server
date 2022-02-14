@@ -69,8 +69,11 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
 
     return Response.ok('Message sent!');
   } on Exception catch (e) {
+    print('xxxxxxxxxxxxxxxxx');
     print(await request.readAsString());
+    print('xxxxxxxxxxxxxxxxx');
     print(e);
+    print('xxxxxxxxxxxxxxxxx');
     return Response.internalServerError(body: 'Internal Server Error');
   }
 }
