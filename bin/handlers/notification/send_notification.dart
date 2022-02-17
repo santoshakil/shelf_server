@@ -64,7 +64,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
       "disappear": "$_disappear",
       "reminder": "$_reminder",
       "delayed": $_delayed,
-      "activeStatus": $_activeStatus,
+      "activeStatus": $_activeStatus
     }
     ''');
     print('Message sent to $_to from $_email');
