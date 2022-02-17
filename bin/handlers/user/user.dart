@@ -1,5 +1,4 @@
 import 'dart:async' show FutureOr;
-import 'dart:convert' show jsonEncode;
 
 import 'package:shelf/shelf.dart' show Request, Response;
 
@@ -37,14 +36,14 @@ FutureOr<Response> getActiveUserListHandler(Request request) async {
   if (_user == null) return Response.forbidden('Invalid email');
   if (_user.token != _token) return Response.forbidden('Invalid token');
 
-  var _users = channels.entries.map((e) => '\n' + e.key).toList();
+  var _users = channels.entries.map((e) => '\n' '"' + e.key + '"').toList();
 
   return Response(
     200,
     body: '''
     {
       "message": "success",
-      "users": ${jsonEncode(_users)}
+      "users": $_users
     }
   ''',
   );
