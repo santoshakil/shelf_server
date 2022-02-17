@@ -29,6 +29,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     final String? _replyId = _map['replyId'];
     final String? _disappear = _map['disappear'];
     final String? _reminder = _map['reminder'];
+    final bool _activeStatus = _map['activeStatus'] ?? false;
 
     if (_message == null || _email == null || _to == null) {
       return Response.forbidden('message, email and to are required');
@@ -62,7 +63,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
       "replyId": "$_replyId",
       "disappear": "$_disappear",
       "reminder": "$_reminder",
-      "delayed": $_delayed
+      "delayed": $_delayed,
+      "activeStatus": $_activeStatus,
     }
     ''');
     print('Message sent to $_to from $_email');
