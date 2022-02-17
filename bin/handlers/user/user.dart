@@ -1,4 +1,5 @@
 import 'dart:async' show FutureOr;
+import 'dart:convert' show jsonEncode;
 
 import 'package:shelf/shelf.dart' show Request, Response;
 
@@ -43,7 +44,7 @@ FutureOr<Response> getActiveUserListHandler(Request request) async {
     body: '''
     {
       "message": "success",
-      "users": $_users
+      "users": ${jsonEncode(_users)}
     }
   ''',
   );
