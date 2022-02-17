@@ -29,7 +29,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     final String? _replyId = _map['replyId'];
     final String? _disappear = _map['disappear'];
     final String? _reminder = _map['reminder'];
-    final bool _activeStatus = _map['activeStatus'] ?? false;
+    final bool _activeStatus = _map['activeStatus'] ?? true;
 
     if (_message == null || _email == null || _to == null) {
       return Response.forbidden('message, email and to are required');
