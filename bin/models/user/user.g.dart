@@ -26,13 +26,14 @@ class UserAdapter extends TypeAdapter<User> {
       address: fields[6] as String,
       designation: fields[7] as String,
       depertment: fields[8] as String,
+      isActive: fields[9] == null ? false : fields[9] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(7)
       ..write(obj.designation)
       ..writeByte(8)
-      ..write(obj.depertment);
+      ..write(obj.depertment)
+      ..writeByte(9)
+      ..write(obj.isActive);
   }
 
   @override

@@ -23,6 +23,11 @@ FutureOr<Response> getNotificationHandler(Request request) async {
     channels.addAll({_email: webSocket});
     print('${_user.name} is connected!');
     webSocket.sink.add('You are connected!');
+    _user.isActive = true;
+    webSocket.stream.listen(null, onDone: () {
+      channels.remove(_email);
+      _user.isActive = false;
+    });
   }
 
   return await webSocketHandler(_onConnection)(request);

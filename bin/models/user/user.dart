@@ -40,6 +40,8 @@ class User extends HiveObject {
   String designation;
   @HiveField(8)
   String depertment;
+  @HiveField(9, defaultValue: false)
+  bool isActive;
 
   User({
     required this.id,
@@ -51,6 +53,7 @@ class User extends HiveObject {
     required this.address,
     required this.designation,
     required this.depertment,
+    this.isActive = false,
   });
 
   User copyWith({
@@ -63,6 +66,7 @@ class User extends HiveObject {
     String? address,
     String? designation,
     String? depertment,
+    bool? isActive,
   }) {
     return User(
       id: id ?? this.id,
@@ -74,6 +78,7 @@ class User extends HiveObject {
       address: address ?? this.address,
       designation: designation ?? this.designation,
       depertment: depertment ?? this.depertment,
+      isActive: isActive ?? this.isActive,
     );
   }
 
@@ -86,6 +91,7 @@ class User extends HiveObject {
       'address': address,
       'designation': designation,
       'depertment': depertment,
+      'isActive': isActive,
     };
   }
 
@@ -106,6 +112,7 @@ class User extends HiveObject {
       address: map['address'],
       designation: map['designation'],
       depertment: map['depertment'],
+      isActive: map['isActive'] ?? false,
     );
   }
 
