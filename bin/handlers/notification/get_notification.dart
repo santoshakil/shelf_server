@@ -27,6 +27,7 @@ FutureOr<Response> getNotificationHandler(Request request) async {
     webSocket.stream.listen(null, onDone: () {
       channels.remove(_email);
       _user.isActive = false;
+      print('${_user.name} is disconnected!');
     });
   }
 
