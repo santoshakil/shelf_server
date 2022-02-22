@@ -10,6 +10,7 @@ final handlers = Router()
   ..post('/signup', signUpHandler)
   ..post('/signin', signInHandler)
   ..post('/sendNotificaion', sendNotificationHandler)
-  ..get('/getNotificaion', getNotificationHandler)
   ..get('/userList', getUserListHandler)
   ..get('/activeUserList', getActiveUserListHandler);
+
+final handlersWS = Router()..get('/getNotificaion', getNotificationHandler);
