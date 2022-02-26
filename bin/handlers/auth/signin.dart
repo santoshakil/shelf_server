@@ -3,7 +3,7 @@ import 'dart:convert' show jsonDecode;
 
 import 'package:shelf/shelf.dart' show Request, Response;
 
-import '../../models/user/user.dart' show User;
+import '../../models/user.dart' show User ;
 
 FutureOr<Response> signInHandler(Request request) async {
   try {

@@ -6,8 +6,7 @@ import 'package:web_socket_channel/web_socket_channel.dart'
     show WebSocketChannel;
 
 import '../../database/channels.dart' show channels;
-import '../../models/user/user.dart' show User;
-
+import '../../models/user.dart' show User ;
 FutureOr<Response> getNotificationHandler(Request request) async {
   final String? _token = request.headers['Authorization'];
   if (_token == null) return Response.forbidden('Invalid token');

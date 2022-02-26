@@ -11,7 +11,8 @@ import 'package:hive/hive.dart'
         HiveType,
         TypeAdapter;
 
-import '../../helpers/constants.dart' show hiveTypeUser;
+import '../helpers/constants.dart' show hiveTypeUser;
+
 
 part 'user.g.dart';
 
