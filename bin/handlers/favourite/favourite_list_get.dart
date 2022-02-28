@@ -10,20 +10,23 @@ import '../../models/user.dart' show User;
 FutureOr<Response> getfavContactListHandler(Request request) async {
   final String? _token = request.headers['Authorization'];
   if (_token == null) return Response.forbidden('Invalid token');
-  final String? _id = request.headers['id'];
+  final int? _id = int.parse(request.headers['id']!);
   if (_id == null) return Response.forbidden('id is required');
   print('emaiiill ${User.users.values}');
   final User? _user = User.users.get(_id);
   if (_user == null) return Response.forbidden('Invalid id');
   if (_user.token != _token) return Response.forbidden('Invalid token');
 
-  final FavContact? _favUser = FavContact.favContacts.get(_id);
-   if(_favUser== null){
-     return Response.forbidden('Invalid id');
-   }
+  var _favUser =
+      FavContact.favContacts.values.firstWhere((element) => element.uid == _id);
+  if (FavContact.favContacts == null) {
+     return Response.forbidden('No Data Found');
+  }
+  if (_favUser == null) {
+    return Response.forbidden('Invalid id');
+  }
   var _fav = _favUser.users;
-  var _favContactList=_fav.map((e) => '\n' + e.toJson()).toList();
- 
+  var _favContactList = _fav.map((e) => '\n' + e.toJson()).toList();
 
   return Response(
     200,
