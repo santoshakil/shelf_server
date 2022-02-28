@@ -12,21 +12,24 @@ FutureOr<Response> getfavContactListHandler(Request request) async {
   if (_token == null) return Response.forbidden('Invalid token');
   final int? _id = int.parse(request.headers['id']!);
   if (_id == null) return Response.forbidden('id is required');
-  print('emaiiill ${User.users.values}');
-  final User? _user = User.users.get(_id);
-  if (_user == null) return Response.forbidden('Invalid id');
-  if (_user.token != _token) return Response.forbidden('Invalid token');
+  print('emaiiill $_id');
+  // final User? _user = User.users.get(_id);
+  // if (_user == null) return Response.forbidden('Invalid id');
+  // if (_user.token != _token) return Response.forbidden('Invalid token');
 
   var _favUser =
-      FavContact.favContacts.values.firstWhere((element) => element.uid == _id);
+      FavContact.favContacts.values.firstWhere((element) => element.uid==_id);
+  print('kkjj $_favUser');
   if (FavContact.favContacts == null) {
-     return Response.forbidden('No Data Found');
+    return Response.forbidden('No Data Found');
   }
   if (_favUser == null) {
-    return Response.forbidden('Invalid id');
+    print('kkjj ${FavContact.favContacts.values.length}');
+    return Response.forbidden('Id not found');
   }
-  var _fav = _favUser.users;
-  var _favContactList = _fav.map((e) => '\n' + e.toJson()).toList();
+  // var _fav = _favUser.users;
+  // print('kkjj ${_fav.length}');
+  var _favContactList = FavContact.favContacts.values.single.users.map((e) => '\n' + e.toJson()).toList();
 
   return Response(
     200,
