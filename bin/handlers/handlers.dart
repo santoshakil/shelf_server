@@ -2,6 +2,7 @@ import 'package:shelf_router/shelf_router.dart' show Router;
 
 import 'auth/signin.dart' show signInHandler;
 import 'auth/signup.dart' show signUpHandler;
+import 'favourite/favourite_list_delete.dart';
 import 'favourite/favourite_list_get.dart' show getfavContactListHandler;
 import 'notification/get_notification.dart' show getNotificationHandler;
 import 'notification/send_notification.dart' show sendNotificationHandler;
@@ -15,6 +16,7 @@ final handlers = Router()
   ..post('/addfavouriteList', favouriteListAdd)
   ..get('/userList', getUserListHandler)
   ..get('/activeUserList', getActiveUserListHandler)
-  ..get('/getFavContact', getfavContactListHandler);
+  ..get('/getFavContact', getfavContactListHandler)
+  ..delete('/deleteFavContactList', deletefavContactListHandler);
 
 final handlersWS = Router()..get('/getNotificaion', getNotificationHandler);

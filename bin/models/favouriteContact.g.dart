@@ -17,22 +17,19 @@ class FavContactAdapter extends TypeAdapter<FavContact> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return FavContact(
-      id: fields[0] as int,
-      name: fields[1] as String,
-      email: fields[2] as String,
+      uid: fields[0] as int,
+      users: (fields[1] as HiveList).castHiveList(),
     );
   }
 
   @override
   void write(BinaryWriter writer, FavContact obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.email);
+      ..writeByte(0)
+      ..write(obj.uid)
+      ..writeByte(1)
+      ..write(obj.users);
   }
 
   @override

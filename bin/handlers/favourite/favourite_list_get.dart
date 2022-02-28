@@ -10,14 +10,20 @@ import '../../models/user.dart' show User;
 FutureOr<Response> getfavContactListHandler(Request request) async {
   final String? _token = request.headers['Authorization'];
   if (_token == null) return Response.forbidden('Invalid token');
-  final String? _email = request.headers['email'];
-  if (_email == null) return Response.forbidden('email is required');
+  final String? _id = request.headers['id'];
+  if (_id == null) return Response.forbidden('id is required');
   print('emaiiill ${User.users.values}');
-  final User? _user = User.users.get(_email);
-  if (_user == null) return Response.forbidden('Invalid email');
+  final User? _user = User.users.get(_id);
+  if (_user == null) return Response.forbidden('Invalid id');
   if (_user.token != _token) return Response.forbidden('Invalid token');
 
-  var _favContactList = FavContact.favContacts.values.map((e) => '\n' + e.toJson()).toList();
+  final FavContact? _favUser = FavContact.favContacts.get(_id);
+   if(_favUser== null){
+     return Response.forbidden('Invalid id');
+   }
+  var _fav = _favUser.users;
+  var _favContactList=_fav.map((e) => '\n' + e.toJson()).toList();
+ 
 
   return Response(
     200,

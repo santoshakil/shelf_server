@@ -21,7 +21,7 @@ class User extends HiveObject {
   static const String boxName = 'userBox';
   static final users = Hive.box<User>(boxName);
 
-  Future<void> put() async => await Hive.box<User>(boxName).put(email, this);
+  Future<void> put() async => await Hive.box<User>(boxName).put(id.toString(), this);
 
   @HiveField(0)
   int id;

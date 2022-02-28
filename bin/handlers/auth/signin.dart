@@ -17,7 +17,7 @@ FutureOr<Response> signInHandler(Request request) async {
     if (_password == null) _e.addAll({'password': 'password is required'});
     if (_e.isNotEmpty) return Response.forbidden(_e.toString());
 
-    User? _user = User.users.get(_email);
+    User? _user = User.users.values.firstWhere((element) => element.email==_email);
     if (_user == null) return Response.forbidden('user not found');
     if (_user.password != _password) {
       return Response.forbidden('password is incorrect');

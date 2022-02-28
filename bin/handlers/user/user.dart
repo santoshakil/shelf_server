@@ -12,7 +12,7 @@ FutureOr<Response> getUserListHandler(Request request) async {
   final String? _email = request.headers['email'];
   if (_email == null) return Response.forbidden('email is required');
   print('emaiiill ${User.users.values}');
-  final User? _user = User.users.get(_email);
+  final User? _user = User.users.values.firstWhere((element) => element.email==_email);
   if (_user == null) return Response.forbidden('Invalid email');
   if (_user.token != _token) return Response.forbidden('Invalid token');
 
@@ -34,7 +34,7 @@ FutureOr<Response> getActiveUserListHandler(Request request) async {
   if (_token == null) return Response.forbidden('Invalid token');
   final String? _email = request.headers['email'];
   if (_email == null) return Response.forbidden('email is required');
-  final User? _user = User.users.get(_email);
+  final User? _user = User.users.values.firstWhere((element) => element.email==_email);
   if (_user == null) return Response.forbidden('Invalid email');
   if (_user.token != _token) return Response.forbidden('Invalid token');
 

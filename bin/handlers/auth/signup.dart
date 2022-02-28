@@ -29,7 +29,7 @@ FutureOr<Response> signUpHandler(Request request) async {
 
   var _user = User.fromMap(_map);
   await _user.put();
-  print('user created: ${_user.name.toString()}');
+  print('user created: ${_user.id.toString()}');
 
   return Response.ok('''
   {
