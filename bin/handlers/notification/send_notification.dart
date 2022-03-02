@@ -14,7 +14,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     final String? _auth = request.headers['Authorization'];
     if (_auth == null) return Response.forbidden('Invalid Authorization');
 
-    final String? _to = _map['to'];
+    List<dynamic> _to = [];
+    _to.addAll(_map['to']);
     final String? _task = _map['task'];
     final String? _time = _map['time'];
     final String? _email = _map['email'];
@@ -29,6 +30,9 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     final String? _replyId = _map['replyId'];
     final String? _disappear = _map['disappear'];
     final String? _reminder = _map['reminder'];
+
+    print('dhuur ${_to.length}');
+    print('dhuur $_email');
 
     if (_message == null || _email == null || _to == null) {
       return Response.forbidden('message, email and to are required');
@@ -45,15 +49,20 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
       return Response.forbidden('Invalid Authorization');
     }
 
-    final User? _toUser =  User.users.values.firstWhere((element) => element.email == _to);
-    print('grree $_to');
-    print('grree $_toUser');
-    if (_toUser == null) return Response.forbidden('To user not found');
+    // final User? _toUser =
+    //     User.users.values.firstWhere((element) => element.email == _to);
+    // print('grree $_to');
+    // print('grree $_toUser');
+    // if (_toUser == null) return Response.forbidden('To user not found');
+    for (var item in _to) {
+     // print('ggffsf $item');
+      final _channel = channels[item];
+      //print('ggffsf $_channel');
+      if (_channel == null) {
+        return Response.forbidden('To User is not connected');
+      }
 
-    final _channel = channels[_to];
-    if (_channel == null) return Response.forbidden('To User is not connected');
-
-    _channel.sink.add('''
+      _channel.sink.add('''
     {
       "message": "$_message",
       "email": "$_email",
@@ -72,7 +81,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
       "delayed": $_delayed
     }
     ''');
-    print('Message sent to $_to from $_email');
+      print('Message sent to $_to from $_email');
+    }
 
     return Response.ok('Message sent!');
   } on Exception catch (e) {
