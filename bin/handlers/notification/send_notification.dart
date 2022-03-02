@@ -17,7 +17,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     List<dynamic> _to = [];
     _to.addAll(_map['to']);
     List<dynamic> _listofGroupUsers = [];
-    _listofGroupUsers.addAll(_map['list_of_group_users']);
+    _listofGroupUsers.addAll(_to);
+    _listofGroupUsers.add(_map['email']);
     final String? _task = _map['task'];
     final String? _time = _map['time'];
     final String? _email = _map['email'];
