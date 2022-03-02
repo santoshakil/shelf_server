@@ -3,10 +3,10 @@ import 'dart:convert' show jsonDecode;
 
 import 'package:shelf/shelf.dart' show Request, Response;
 
-import '../../database/channels.dart' show channels;
+import '../../database/channels.dart' show listChannels;
 import '../../models/user.dart' show User;
 
-FutureOr<Response> sendNotificationHandler(Request request) async {
+FutureOr<Response> sendGroupNotificationHandler(Request request) async {
   try {
     final String _body = await request.readAsString();
     final Map<String, dynamic> _map = jsonDecode(_body);
@@ -14,7 +14,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     final String? _auth = request.headers['Authorization'];
     if (_auth == null) return Response.forbidden('Invalid Authorization');
 
-    final String? _to = _map['to'];
+    final List<String>? _to = _map['to'];
     final String? _task = _map['task'];
     final String? _time = _map['time'];
     final String? _email = _map['email'];
@@ -36,21 +36,15 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
 
     final User? _user =
         User.users.values.firstWhere((element) => element.email == _email);
-    print('grree $_email');
-    print('grree $_user');
-
     if (_user == null) return Response.forbidden('User not found');
-
     if (_user.token != _auth) {
       return Response.forbidden('Invalid Authorization');
     }
 
-    final User? _toUser =  User.users.values.firstWhere((element) => element.email == _to);
-    print('grree $_to');
-    print('grree $_toUser');
+    final User? _toUser = User.users.get(_to);
     if (_toUser == null) return Response.forbidden('To user not found');
 
-    final _channel = channels[_to];
+    final _channel = listChannels[_to];
     if (_channel == null) return Response.forbidden('To User is not connected');
 
     _channel.sink.add('''
