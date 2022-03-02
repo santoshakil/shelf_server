@@ -16,6 +16,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
 
     List<dynamic> _to = [];
     _to.addAll(_map['to']);
+    List<dynamic> _listofGroupUsers = [];
+    _listofGroupUsers.addAll(_map['list_of_group_users']);
     final String? _task = _map['task'];
     final String? _time = _map['time'];
     final String? _email = _map['email'];
@@ -40,8 +42,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
 
     final User? _user =
         User.users.values.firstWhere((element) => element.email == _email);
-    print('grree $_email');
-    print('grree $_user');
+    // print('grree $_email');
+    // print('grree $_user');
 
     if (_user == null) return Response.forbidden('User not found');
 
@@ -55,18 +57,22 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     // print('grree $_toUser');
     // if (_toUser == null) return Response.forbidden('To user not found');
     for (var item in _to) {
-     // print('ggffsf $item');
+      // print('ggffsf $item');
       final _channel = channels[item];
       //print('ggffsf $_channel');
       if (_channel == null) {
         return Response.forbidden('To User is not connected');
       }
 
+      var _groupList = _listofGroupUsers.toString().replaceAll('[', '');
+      var _finalgroupList = _groupList.toString().replaceAll(']', '');
+
       _channel.sink.add('''
     {
       "message": "$_message",
       "email": "$_email",
       "sender": "${_user.name}",
+      "list_of_group_users":["$_finalgroupList"],
       "time": "$_time",
       "isSeen": $_isSeen,
       "isDelete": $_isDelete,
