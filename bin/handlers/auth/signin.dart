@@ -8,11 +8,12 @@ import '../../models/user.dart' show User;
 FutureOr<Response> signInHandler(Request request) async {
   try {
     String _body = await request.readAsString();
+    print('sign innnn ${_body}');
     var _map = jsonDecode(_body);
     String? _email = _map['email'];
     String? _password = _map['password'];
-     print('UserEmail ${_map['email']}');
-    print('UserPassword ${ _map['password']}');
+    print('UserEmail ${_map['email']}');
+    print('UserPassword ${_map['password']}');
     print('UserEmail $_email');
     print('UserPassword $_password');
 
@@ -21,8 +22,8 @@ FutureOr<Response> signInHandler(Request request) async {
     if (_password == null) _e.addAll({'password': 'password is required'});
     if (_e.isNotEmpty) return Response.forbidden(_e.toString());
 
-    User? _user =
-        User.users.values.firstWhere((element) => element.email == _map['email']);
+    User? _user = User.users.values
+        .firstWhere((element) => element.email == _map['email']);
     if (_user == null) return Response.forbidden('user not found');
     if (_user.password != _password) {
       return Response.forbidden('password is incorrect');
