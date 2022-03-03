@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async' show FutureOr;
 import 'dart:convert' show jsonDecode;
 
@@ -11,6 +13,9 @@ Future<FutureOr<Response>> favouriteListAdd(Request request) async {
   try {
     String _body = await request.readAsString();
     var _map = jsonDecode(_body);
+    if (FavContact.favContacts.containsKey(_map['fid'])) {
+      return Response.forbidden('User already added to the favourite list');
+    }
     final String? _token = request.headers['Authorization'];
     int? _uid = int.parse(_map['id']);
     int? _fid = int.parse(_map['fid']);
@@ -20,6 +25,7 @@ Future<FutureOr<Response>> favouriteListAdd(Request request) async {
     // ignore: unnecessary_null_comparison
     if (_uid == null) _e.addAll({'id': 'Id is required'});
     //if (_email == null) _e.addAll({'email': 'email is required'});
+    // ignore: unnecessary_null_comparison
     if (_fid == null) _e.addAll({'fid': 'favourite Id not found'});
     if (_token == null) return Response.forbidden('Invalid token');
     if (_e.isNotEmpty) return Response.forbidden(_e.toString());
