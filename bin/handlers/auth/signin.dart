@@ -22,7 +22,7 @@ FutureOr<Response> signInHandler(Request request) async {
     if (_e.isNotEmpty) return Response.forbidden(_e.toString());
 
     User? _user =
-        User.users.values.firstWhere((element) => element.email == _email);
+        User.users.values.firstWhere((element) => element.email == _map['email']);
     if (_user == null) return Response.forbidden('user not found');
     if (_user.password != _password) {
       return Response.forbidden('password is incorrect');
