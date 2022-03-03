@@ -24,24 +24,18 @@ Future<FutureOr<Response>> favouriteListAdd(Request request) async {
     if (_token == null) return Response.forbidden('Invalid token');
     if (_e.isNotEmpty) return Response.forbidden(_e.toString());
 
-    // User? _user = User.users.get(_fid);
-    // print('gur $_user');
-    // if (_user == null) return Response.forbidden('user not found');
-    //if (_user.token != _token) return Response.forbidden('Invalid token');
-    // if (_user.id != _uid) {
-    //   return Response.forbidden('User name not found');
-    // }
+    User? uid = User.users.values.firstWhere((element) => element.id == _uid);
+    User? fid = User.users.values.firstWhere((element) => element.id == _fid);
 
-    User? uid = User.users.values.firstWhere((element) => element.id==_uid);
-    User? fid = User.users.values.firstWhere((element) => element.id==_fid);
-        print('gurur $uid');
-    print('gurur ${User.users.values.last.id}');
-    if (fid == null) {
-      print('gururr $fid');
-
+    if (fid == null || uid == null) {
       return Response.forbidden('User Not Found');
     }
+    if (FavContact.favContacts.containsKey(_map['fid'])) {
+      return Response.forbidden('User already added to the favourite list');
+    }
+
     FavContact? favConId = FavContact.favContacts.get(_uid.toString());
+
     if (favConId == null) {
       FavContact favList = FavContact(
           uid: _uid, users: HiveList<User>(User.users, objects: [fid]));
@@ -50,8 +44,6 @@ Future<FutureOr<Response>> favouriteListAdd(Request request) async {
       favConId.users.add(fid);
       favConId.save();
     }
-    // var _favContact = FavContact.fromMap(_map);
-    // await _favContact.put();
 
     return Response.ok('''{
       
