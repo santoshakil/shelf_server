@@ -6,3 +6,4 @@ final serverPortWS = int.parse('8081');
 
 const int hiveTypeUser = 1;
 const int hiveTypeFavContact = 2;
+const int hiveTypeUserCall = 3;

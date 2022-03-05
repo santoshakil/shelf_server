@@ -13,7 +13,7 @@ FutureOr<Response> getUserListHandler(Request request) async {
   if (_email == null) return Response.forbidden('email is required');
   print('emaiiill ${User.users.values}');
   final User? _user = User.users.values.firstWhere((element) => element.email==_email);
-  if (_user == null) return Response.forbidden('Invalid email');
+  if (_user == null) return Response.forbidden('User not found');
   if (_user.token != _token) return Response.forbidden('Invalid token');
 
   var _users = User.users.values.map((e) => '\n' + e.toJson()).toList();
