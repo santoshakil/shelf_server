@@ -15,12 +15,12 @@ FutureOr<Response> deleteInCallUsersHandler(Request request) async {
   try {
     String body = await request.readAsString();
     var _map = jsonDecode(body);
-    int? _fid = int.parse(_map['fid']);
-    print('deleted Item $_fid');
+    String? _email = _map['email'];
+    print('deleted Item $_email');
     
-    bool? idMatach = UserCall.inCallUser.values.any((element) => element.id == _fid);
+    bool? idMatach = UserCall.inCallUser.values.any((element) => element.email == _email);
     final _inCallUserList=UserCall.inCallUser.values.toList();
-    final _index=_inCallUserList.indexWhere((element) => element.id == _fid);
+    final _index=_inCallUserList.indexWhere((element) => element.email == _email);
 
     print('deleted Item $idMatach');
 
@@ -33,7 +33,7 @@ FutureOr<Response> deleteInCallUsersHandler(Request request) async {
       body: '''
     {
       "message": "success",
-      "deleted_item":"$_fid"
+      "deleted_item":"$_email"
     }
   ''',
     );

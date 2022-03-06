@@ -15,17 +15,16 @@ Future<FutureOr<Response>> inCallUsers(Request request) async {
     String _body = await request.readAsString();
     var _map = jsonDecode(_body);
     String? _email = _map['email'];
-    int? _id=int.parse(_map['id']);
+    //int? _id=int.parse(_map['id']);
     print('gur $_email');
-     UserCall? inCallUser = UserCall(email: _email,id: _id);
+     UserCall? inCallUser = UserCall(email: _email,);
     inCallUser.put();
 
-    return Response.ok('''{
+    return Response.ok('''
     {
       "message": "successfully added"
     }
-    
-    }''');
+    ''');
   } on Exception catch (e) {
     print('xxxxxxxxxxxxxxxxx');
     print(e);

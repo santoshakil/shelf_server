@@ -18,18 +18,15 @@ class UserCallAdapter extends TypeAdapter<UserCall> {
     };
     return UserCall(
       email: fields[0] as String?,
-      id: fields[1] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserCall obj) {
     writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.email)
       ..writeByte(1)
-      ..write(obj.id);
+      ..writeByte(0)
+      ..write(obj.email);
   }
 
   @override

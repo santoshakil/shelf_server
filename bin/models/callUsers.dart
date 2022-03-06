@@ -23,14 +23,12 @@ part 'callUsers.g.dart';
 class UserCall extends HiveObject {
   static const String boxName = 'callUserBox';
   static final inCallUser = Hive.box<UserCall>(boxName);
-  Future<void> put() async => await Hive.box<UserCall>(boxName).put(id.toString(), this);
+  Future<void> put() async => await Hive.box<UserCall>(boxName).put(email.toString(), this);
 
   @HiveField(0)
   String? email;
-  @HiveField(1)
-  int? id;
 
-  UserCall({required this.email,required this.id});
+  UserCall({required this.email,});
 
   UserCall copyWith({
     String? email,
@@ -38,12 +36,11 @@ class UserCall extends HiveObject {
   }) {
     return UserCall(
       email: email ?? this.email,
-      id: id ?? this.id,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {'email': email, 'id': id};
+    return {'email': email};
   }
 
   String toJson() => json.encode(toMap());
@@ -53,12 +50,12 @@ class UserCall extends HiveObject {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is UserCall && other.id == id;
+    return other is UserCall && other.email == email;
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => email.hashCode;
 
   @override
-  String toString() => 'User(id: $id)';
+  String toString() => 'User(email: $email)';
 }
