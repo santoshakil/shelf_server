@@ -34,17 +34,17 @@ FutureOr<Response> deletefavContactListHandler(Request request) async {
     // var _favContactList =
     //     FavContact.favContacts.values.map((e) => '\n' + e.toJson()).toList();
     FavContact? favConId = FavContact.favContacts.get(_uid.toString());
-    var favMap = favConId!.users;
+    var favMap = favConId?.users;
     // favMap.forEach((key, value){
     //     if (value.id == _fid) {
     //       desiredKey = key;
     //     }
     // });
-    bool? idMatach = favConId.users.any((element) => element.id == _fid);
-    print('deleted Item $idMatach');
+    bool? idMatach = favConId?.users.any((element) => element.id == _fid);
+    print('deleted Item ${favConId?.users.length}');
 
     if (idMatach == true) {
-      favMap.removeWhere((element) => element.id==_fid);
+      favMap?.removeWhere((element) => element.id==_fid);
       //print('deleted Item lenth $deleteFav');
     }
 

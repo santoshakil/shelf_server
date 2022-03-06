@@ -30,7 +30,7 @@ FutureOr<Response> getfavContactListHandler(Request request) async {
   // var _fav = _favUser.users;
   // print('kkjj ${_fav.length}');
   var _favContactList = FavContact.favContacts.values.single.users.map((e) => '\n' + e.toJson()).toList();
-
+print('deleted Item ${FavContact.favContacts.values.length}');
   return Response(
     200,
     body: '''
