@@ -12,15 +12,17 @@ import '../../models/user.dart' show User;
 
 Future<FutureOr<Response>> getInCallUsers(Request request) async {
   try {
-    String _body = await request.readAsString();
-    var _map = jsonDecode(_body);
-    String? _email = _map['email'];
-    print('gur $_email');
-    final UserCall? _inCallUser = UserCall.inCallUser.values
-        .firstWhere((element) => element.email == _email);
-    if (_inCallUser == null) {
-      return Response.forbidden('User not found');
-    }
+    //String _body = await request.readAsString();
+    //var _map = jsonDecode(_body);
+    final String? _token = request.headers['Authorization'];
+    if (_token == null) return Response.forbidden('Invalid token');
+    // String? _email = _map['email'];
+    // print('gur $_email');
+    // final UserCall? _inCallUser = UserCall.inCallUser.values
+    //     .firstWhere((element) => element.email == _email);
+    // if (_inCallUser == null) {
+    //   return Response.forbidden('User not found');
+    // }
 
     var _callUsers =
         UserCall.inCallUser.values.map((e) => '\n' + e.toJson()).toList();
