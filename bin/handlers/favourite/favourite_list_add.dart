@@ -13,9 +13,9 @@ Future<FutureOr<Response>> favouriteListAdd(Request request) async {
   try {
     String _body = await request.readAsString();
     var _map = jsonDecode(_body);
-    if (FavContact.favContacts.containsKey(_map['fid'])) {
-      return Response.forbidden('User already added to the favourite list');
-    }
+    // if (FavContact.favContacts.containsKey(_map['fid'])) {
+    //   return Response.forbidden('User already added to the favourite list');
+    // }
     final String? _token = request.headers['Authorization'];
     int? _uid = int.parse(_map['id']);
     int? _fid = int.parse(_map['fid']);
@@ -36,9 +36,9 @@ Future<FutureOr<Response>> favouriteListAdd(Request request) async {
     if (fid == null || uid == null) {
       return Response.forbidden('User Not Found');
     }
-    if (FavContact.favContacts.containsKey(_map['fid'])) {
-      return Response.forbidden('User already added to the favourite list');
-    }
+    // if (FavContact.favContacts.containsKey(_map['fid'])) {
+    //   return Response.forbidden('User already added to the favourite list');
+    // }
 
     FavContact? favConId = FavContact.favContacts.get(_uid.toString());
 
