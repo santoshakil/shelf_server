@@ -17,16 +17,16 @@ FutureOr<Response> getfavContactListHandler(Request request) async {
   // if (_user == null) return Response.forbidden('Invalid id');
   // if (_user.token != _token) return Response.forbidden('Invalid token');
 
-  var _favUser =
-      FavContact.favContacts.values.firstWhere((element) => element.uid==_id);
-  print('kkjj $_favUser');
-  if (FavContact.favContacts == null) {
-    return Response.forbidden('No Data Found');
-  }
-  if (_favUser == null) {
-    print('kkjj ${FavContact.favContacts.values.length}');
-    return Response.forbidden('Id not found');
-  }
+  // var _favUser =
+  //     FavContact.favContacts.values.firstWhere((element) => element.uid==_id);
+  // print('kkjj $_favUser');
+  // if (FavContact.favContacts == null) {
+  //   return Response.forbidden('No Data Found');
+  // }
+  // if (_favUser == null) {
+  //   print('kkjj ${FavContact.favContacts.values.length}');
+  //   return Response.forbidden('Id not found');
+  // }
   // var _fav = _favUser.users;
   // print('kkjj ${_fav.length}');
   var _favContactList = FavContact.favContacts.values.single.users.map((e) => '\n' + e.toJson()).toList();
