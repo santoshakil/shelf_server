@@ -37,7 +37,7 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     print('dhuur ${_to.length}');
     print('dhuur $_email');
 
-    if (_message == null || _email == null || _to == null) {
+    if (_message == null || _email == null) {
       return Response.forbidden('message, email and to are required');
     }
 
@@ -61,14 +61,14 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
       // print('ggffsf $item');
       final _channel = channels[item];
       //print('ggffsf $_channel');
-      if (_channel == null) {
-        return Response.forbidden('To User is not connected');
-      }
+      // if (_channel == null) {
+      //   return Response.forbidden('To User is not connected');
+      // }
 
       var _groupList = _listofGroupUsers.toString().replaceAll('[', '');
       var _finalgroupList = _groupList.toString().replaceAll(']', '');
 
-      _channel.sink.add('''
+      _channel?.sink.add('''
     {
       "message": "$_message",
       "email": "$_email",
