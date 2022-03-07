@@ -20,7 +20,7 @@ FutureOr<Response> deletefavContactListHandler(Request request) async {
     int? _fid = int.parse(_map['fid']);
     //String? _name = _map['name'];
     //int? deleteItem;
-    print('deleted Item $_fid');
+    //print('deleted Item $_fid');
     //print('deleted Item $_name');
     final String? _token = request.headers['Authorization'];
     if (_token == null) return Response.forbidden('Invalid token');
@@ -41,7 +41,7 @@ FutureOr<Response> deletefavContactListHandler(Request request) async {
     //     }
     // });
     bool? idMatach = favConId?.users.any((element) => element.id == _fid);
-    print('deleted Item ${favConId?.users.length}');
+    //print('deleted Item ${favConId?.users.length}');
 
     if (idMatach == true) {
       favMap?.removeWhere((element) => element.id==_fid);

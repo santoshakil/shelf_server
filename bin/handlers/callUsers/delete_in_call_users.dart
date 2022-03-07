@@ -16,13 +16,13 @@ FutureOr<Response> deleteInCallUsersHandler(Request request) async {
     String body = await request.readAsString();
     var _map = jsonDecode(body);
     String? _email = _map['email'];
-    print('deleted Item $_email');
+    //print('deleted Item $_email');
     
     bool? idMatach = UserCall.inCallUser.values.any((element) => element.email == _email);
     final _inCallUserList=UserCall.inCallUser.values.toList();
     final _index=_inCallUserList.indexWhere((element) => element.email == _email);
 
-    print('deleted Item $idMatach');
+    //print('deleted Item $idMatach');
 
     if (idMatach == true) {
       UserCall.inCallUser.deleteAt(_index);

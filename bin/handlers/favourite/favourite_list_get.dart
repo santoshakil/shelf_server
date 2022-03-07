@@ -12,7 +12,7 @@ FutureOr<Response> getfavContactListHandler(Request request) async {
   if (_token == null) return Response.forbidden('Invalid token');
   final int? _id = int.parse(request.headers['id']!);
   if (_id == null) return Response.forbidden('id is required');
-  print('emaiiill $_id');
+  //print('emaiiill $_id');
   // final User? _user = User.users.get(_id);
   // if (_user == null) return Response.forbidden('Invalid id');
   // if (_user.token != _token) return Response.forbidden('Invalid token');
@@ -31,7 +31,7 @@ FutureOr<Response> getfavContactListHandler(Request request) async {
   // print('kkjj ${_fav.length}');
   var getFav=FavContact.favContacts.get(_id.toString());
   var _favContactList = getFav?.users.map((e) => '\n' + e.toJson()).toList();
-print('deleted Item ${FavContact.favContacts.values.length}');
+//print('deleted Item ${FavContact.favContacts.values.length}');
   return Response(
     200,
     body: '''
