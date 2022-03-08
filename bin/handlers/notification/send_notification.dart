@@ -34,8 +34,8 @@ FutureOr<Response> sendNotificationHandler(Request request) async {
     final String? _disappear = _map['disappear'];
     final String? _reminder = _map['reminder'];
 
-    print('dhuur ${_to.length}');
-    print('dhuur $_email');
+    // print('dhuur ${_to.length}');
+    // print('dhuur $_email');
 
     if (_message == null || _email == null) {
       return Response.forbidden('message, email and to are required');
